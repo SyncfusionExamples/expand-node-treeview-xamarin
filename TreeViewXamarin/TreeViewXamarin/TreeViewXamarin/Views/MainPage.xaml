@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:TreeViewXamarin"
+             xmlns:sftreeview="clr-namespace:Syncfusion.XForms.TreeView;assembly=Syncfusion.SfTreeView.XForms"
+             xmlns:treeviewengine="clr-namespace:Syncfusion.TreeView.Engine;assembly=Syncfusion.SfTreeView.XForms"
+             x:Class="TreeViewXamarin.MainPage">
+
+    <ContentPage.BindingContext>
+        <local:FileManagerViewModel x:Name="viewModel"/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <sftreeview:SfTreeView x:Name="treeView" 
+                               ItemTemplateContextType="Node"
+                               ItemsSource="{Binding Folders}" 
+                               ItemHeight="40" 
+                               ExpanderWidth="40">
+            <sftreeview:SfTreeView.Behaviors>
+                <local:Behavior/>
+            </sftreeview:SfTreeView.Behaviors>
+            <sftreeview:SfTreeView.HierarchyPropertyDescriptors>
+                <treeviewengine:HierarchyPropertyDescriptor TargetType="{x:Type local:Folder}" ChildPropertyName="Files"/>
+                <treeviewengine:HierarchyPropertyDescriptor TargetType="{x:Type local:File}" ChildPropertyName="SubFiles"/>
+            </sftreeview:SfTreeView.HierarchyPropertyDescriptors>
+            <sftreeview:SfTreeView.ItemTemplate>
+                <DataTemplate >
+                    <Grid Padding ="0,0,20,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Padding="5,5,5,5">
+                            <Image
+                                Source="{Binding Content.ImageIcon}"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center"
+                                HeightRequest="35" 
+                                WidthRequest="35"/>
+                        </Grid>
+                        <Label Text="{Binding Content.FileName}" 
+                               Grid.Column="1"
+                               VerticalTextAlignment="Center" 
+                               FontSize="16" />
+                    </Grid>
+                </DataTemplate>
+            </sftreeview:SfTreeView.ItemTemplate>
+        </sftreeview:SfTreeView>
+    </ContentPage.Content>
+</ContentPage>
